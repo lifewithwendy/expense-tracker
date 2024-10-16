@@ -24,18 +24,33 @@ export const expensesRoutes = new Hono()
 .post('/', zValidator("json",postSchema),async (c) => {//this will validate data before it reaches the handler
     // Parse the incoming JSON request body
     const data = await c.req.valid("json");
-    const newExpense = postSchema.parse(data);//check data on runtime
-    // Log the new expense for debugging purposes
-    console.log(newExpense);
+    fakeExpenses.push({ id: fakeExpenses.length + 1, ...data });
+    console.log(fakeExpenses);
 
     // Add the new expense to the array (simulating a database save)
     // fakeExpenses.push((String)Math.random(),newExpense...);
 
     // Return the actual newExpense object in the response, not a string
-    return c.json({ message: 'Expense added', expense: newExpense });
+    return c.json({ message: 'Expense added', expense: fakeExpenses });
 })
 
 // Delete an expense by id
-.delete('/:id', (c) => { 
+.delete('/:id', (c) => {
+    const id = Number.parseInt(c.req.param("id"));
+    const index = fakeExpenses.findIndex((expense) => expense.id === id);
+    if (index === -1) {
+        return c.json({ message: 'Expense not found' });
+    }
+    fakeExpenses.splice(index, 1);
     return c.json({ message: 'Expense deleted' });
-});
+})
+
+.get('/:id{[0-9]+}', (c) => {//specify its number
+    const id = Number.parseInt(c.req.param("id"));
+    const expense = fakeExpenses.find((expense) => expense.id === id);
+    if (!expense) {
+        // c.notFound();
+        return c.json({ message: 'Expense not found' });
+    }
+    return c.json({ expenses: expense });
+})
