@@ -13,8 +13,17 @@ const postSchema = z.object({
     amount: z.number().int().positive(),
 });
 
-export const expensesRoutes = new Hono()
+const expenseSchema = z.object({
+    id: z.number().int().positive().min(1),
+    title: z.string().min(3).max(100),
+    amount: z.number().int().positive(),
+});
 
+type Expense = z.infer<typeof expenseSchema>;//creating ts type from zod schema
+
+const createPostSchema = expenseSchema.omit({ id: true })
+
+export const expensesRoutes = new Hono()
 // Get all expenses
 .get('/', (c) => {
     return c.json({ expenses: fakeExpenses });
