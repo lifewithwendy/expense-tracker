@@ -30,7 +30,7 @@ export const expensesRoutes = new Hono()
 })
 
 // Add a new expense
-.post('/', zValidator("json",postSchema),async (c) => {//this will validate data before it reaches the handler
+.post('/', zValidator("json", postSchema),async (c) => {//this will validate data before it reaches the handler
     // Parse the incoming JSON request body
     const data = await c.req.valid("json");
     fakeExpenses.push({ id: fakeExpenses.length + 1, ...data });
@@ -62,4 +62,9 @@ export const expensesRoutes = new Hono()
         return c.json({ message: 'Expense not found' });
     }
     return c.json({ expenses: expense });
+})
+
+.get('/totalSpent', (c) => {
+    const totalSpent = fakeExpenses.reduce((total, expense) => total + expense.amount, 0);
+    return c.json({ totalSpent });
 })
