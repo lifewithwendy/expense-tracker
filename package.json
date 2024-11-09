@@ -7,6 +7,7 @@
     "dev": "bun --watch server/index.ts"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.9",
     "@types/bun": "latest"
   },
   "peerDependencies": {
@@ -14,8 +15,10 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.1",
-    "hono": "^4.6.5",
+    "@types/serve-static": "^1.15.7",
+    "hono": "^4.6.9",
     "logger": "^0.0.1",
+    "serve-static": "^1.16.2",
     "zod": "^3.23.8"
   }
 }

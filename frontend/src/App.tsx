@@ -4,18 +4,22 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+// } from "@/components/ui/card";
+} from "./components/ui/card";
 
-import "./App.css";
+// import { api } from '@/lib/api';
+import { api } from './lib/api';
+
+import './App.css';
 
 function App() {
   const [totalSpent, setTotalSpent] = useState(0);
   useEffect(() => {
     const fetchTotalSpent = async () => {
-      const response = await fetch("/api/expenses/totalSpent");
+      // const response = await fetch("/api/expenses/totalSpent");
+      const response = await api.expenses['totalSpent'].$get();
       const data = await response.json();
       // console.log(data);
       setTotalSpent(data.totalSpent);

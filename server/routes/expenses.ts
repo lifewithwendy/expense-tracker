@@ -30,7 +30,7 @@ export const expensesRoutes = new Hono()
 })
 
 // Add a new expense
-.post('/', zValidator("json", postSchema),async (c) => {//this will validate data before it reaches the handler
+.post('/', zValidator("json", postSchema), async (c) => {//this will validate data before it reaches the handler
     // Parse the incoming JSON request body
     const data = await c.req.valid("json");
     fakeExpenses.push({ id: fakeExpenses.length + 1, ...data });
